@@ -10,13 +10,12 @@
 #undef NDEBUG
 #endif
 
+#include <format>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <filesystem>
 #include <map>
-
-#include <conio.h>
 
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/AST/AST.h"
