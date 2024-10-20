@@ -46,9 +46,11 @@ I'd like to reduce the compilation time of `main.cpp` by moving the instantiatio
 
 I run
 
-`min_header header.hpp` to generate
+`min_header header.hpp` 
 
-- `header_min.hpp`
+to generate
+
+1. `header_min.hpp`
 
 ```
 template <class T>
@@ -61,7 +63,9 @@ struct A {
 };
 ```
 
-- `header_min_ins.hpp`
+This header differs from the original header is the addition of the macro `MIN_HEADER_EXPORT` before declaration of instantiated functions.
+
+2. `header_min_ins.hpp`
 
 ```
 // class instantiation
@@ -71,7 +75,9 @@ struct A<T>;
 // function instantiation
 ```
 
-- `header_min_lean.hpp`
+This header explicitly instantiates template classes and headers.
+
+3. `header_min_lean.hpp`
 
 ```
 typedef bool _Bool;
@@ -83,6 +89,8 @@ struct A {
     T x;
 };
 ```
+
+This is the _lean_ header that includes only declarations.
 
 I (manually) write `main_ins.cpp`
 
@@ -99,7 +107,10 @@ I (manually) write `main_ins.cpp`
 #undef T
 ```
 
-and modify `main.cpp` to include the lean header
+For Visual Studio, I define `MIN_HEADER_EXPORT` as `__declspec( dllexport )`.
+The `__declspec( dllexport )` is to force the compiler not to inline or skip unused functions.
+
+Finally, I modify `main.cpp` to include the lean header
 
 ```
 //#include "header.hpp"
