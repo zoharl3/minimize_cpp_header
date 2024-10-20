@@ -1,0 +1,12 @@
+
+{
+    "dependencies": [
+        {
+            "name": "boost"
+        },
+        {
+            "name": "llvm"
+        }
+    ]
+}
+
