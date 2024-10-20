@@ -4,24 +4,11 @@ cmake_minimum_required(VERSION 3.13.4)
 set( PRJ_NAME "min_header" )
 project( ${PRJ_NAME} )
 
-#set(CMAKE_VERBOSE_MAKEFILE on)
-
-if(MSVC)
-    #set( CMAKE_CONFIGURATION_TYPES "Debug" "RelWithDebInfo" )
-endif()
-
 # src
 add_subdirectory(src)
 
 set_property( TARGET ${PRJ_NAME} PROPERTY FOLDER ${PRJ_NAME} )
-
-message( "CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}" )
-if( 1 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" )
-    target_compile_options( ${PRJ_NAME} PRIVATE "-stdlib=libc++" "-std=c++20" "-gdwarf-4" )
-    target_link_options( ${PRJ_NAME} PRIVATE "-lstdc++" )
-else()
-    set_property( TARGET ${PRJ_NAME} PROPERTY CXX_STANDARD 20 )
-endif()
+set_property( TARGET ${PRJ_NAME} PROPERTY CXX_STANDARD 20 )
 
 target_precompile_headers( ${PRJ_NAME} PRIVATE src/stdafx.h )
 
@@ -79,7 +66,7 @@ if(Boost_FOUND)
 endif()
 
 # VS properties
-if (MSVC)
+if(MSVC)
     set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PRJ_NAME} )
     set_property( TARGET ${PRJ_NAME} PROPERTY VS_DEBUGGER_COMMAND_ARGUMENTS --help )
 endif()

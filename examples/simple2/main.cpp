@@ -20,12 +20,12 @@ int main() {
 
     B<int> b;
     f_fri_B( b );
-    cout << b + 1;
+    cout << b + 1 << endl;
 
     B<double> b2;
     f_fri_B( b2 );
     add_fri_B( b2, 1 );
-    cout << b2 + 1;
+    cout << b2 + 1 << endl;
 
     C c;
     c.g_C( 9 );

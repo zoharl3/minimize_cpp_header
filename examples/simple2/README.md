@@ -9,4 +9,4 @@ I ran
 - `header_min_ins.hpp`
 - `header_min_lean.hpp`
 
-I manually wrote `main_ins.cpp`, and modified `main.cpp` to include the lean header.
+I manually wrote `main_ins.cpp` and modified `main.cpp` to include the lean header.
