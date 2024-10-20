@@ -15,4 +15,4 @@ to generate
 - `Scalar_min_ins.hpp`
 - `Scalar_min_lean.hpp`
 
-I manually wrote `basic_ins.cpp`, and modified `basic.cc` to include the lean header.
+I manually wrote `basic_ins.cpp` and modified `basic.cc` to include the lean header.
