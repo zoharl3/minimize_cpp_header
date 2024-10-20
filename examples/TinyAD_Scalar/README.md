@@ -1,5 +1,7 @@
 
-This example if for the Scalar class from [TinyAD](https://github.com/patr-schm/TinyAD).
+# TinyAD
+
+This example is for the Scalar class from [TinyAD](https://github.com/patr-schm/TinyAD).
 
 The input files are in `input`.
 
