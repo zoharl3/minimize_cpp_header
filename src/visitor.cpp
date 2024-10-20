@@ -12,7 +12,7 @@ bool is_template_type( const QualType &type ) {
 
     if ( !has_tmpl ) {
         // has template expression
-        has_tmpl |= name.contains( '<' );
+        has_tmpl |= name.find( '<' ) != string::npos;
 
         if ( has_tmpl ) {
             // specialized; if it's inside complex<>, then the specialized will refer to the complex

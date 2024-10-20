@@ -107,7 +107,7 @@ int main( int argc, const char **argv ) {
     fIns << class_inst;
     fIns << func_inst + "\n\n";
 
-    //pause();
+    //wait();
 
     return 0;
 }

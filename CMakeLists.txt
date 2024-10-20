@@ -14,7 +14,7 @@ endif()
 add_subdirectory(src)
 
 set_property( TARGET ${PRJ_NAME} PROPERTY FOLDER ${PRJ_NAME} )
-set_property( TARGET ${PRJ_NAME} PROPERTY CXX_STANDARD 26 )
+set_property( TARGET ${PRJ_NAME} PROPERTY CXX_STANDARD 20 )
 
 target_precompile_headers( ${PRJ_NAME} PRIVATE src/stdafx.h )
 
