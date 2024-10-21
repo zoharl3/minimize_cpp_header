@@ -1,5 +1,5 @@
 
-# Minimize a C++ header
+# Extract an interface from a C++ header to ease template instantiation for reducing compilation time
 Given a C++ header, this tool creates a similar lean header file without definitions (function bodies) and that includes only declarations.
 The purpose is to reduce compilation time of a critical cpp file that includes it by moving template instantiation to a separate file.
 
