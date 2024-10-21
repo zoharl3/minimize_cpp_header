@@ -1,8 +1,6 @@
 
 #include "stdafx.h" 
 
-#include <boost/algorithm/string.hpp>
-
 #include "visitor.h"
 
 // a cleaner way?
@@ -103,9 +101,6 @@ ast_visitor::ast_visitor( vector<Rewriter> &writers_, ASTContext &ctx_, string &
     m_b_tmpl_func = m_b_friend = false;
     m_tmpl_class_decl = nullptr;
     m_param_counter = 0;
-
-    class_inst = "\n// class instantiation\n";
-    func_inst = "// function instantiation\n";
 }
 
 // a CXXRecordDecl must follow
@@ -147,11 +142,42 @@ bool ast_visitor::VisitCXXRecordDecl( CXXRecordDecl *d ) {
         auto name = d->getTypeForDecl()->getCanonicalTypeInternal().getAsString();
 
         // instantiate class
-        class_inst += "template\n";
-        class_inst += format( "{} {};\n\n", struct_s, name );
+        m_tmpl_inst += "template\n";
+        m_tmpl_inst += format( "{} {};\n\n", struct_s, name );
     }
 
     println();
+
+    return true;
+}
+
+bool ast_visitor::VisitTypeAliasDecl( TypeAliasDecl *d ) {
+    if ( !( sm.isInMainFile( d->getLocation() ) ) )
+        return true;
+
+    if ( !d->isCXXClassMember() )
+        return true;
+
+    emphasize( "- TypeAliasDecl()" );
+
+    m_func_inst += "    " + to_str( d ) + ";\n\n";
+
+    return true;
+}
+
+bool ast_visitor::VisitVarDecl( VarDecl *d ) {
+    if ( !( sm.isInMainFile( d->getLocation() ) ) )
+        return true;
+
+    if ( !d->isCXXClassMember() )
+        return true;
+
+    if ( !d->isConstexpr() )
+        return true;
+
+    emphasize( "- VisitVarDecl()" );
+
+    m_func_inst += "    " + to_str( d ) + ";\n\n";
 
     return true;
 }
@@ -327,8 +353,6 @@ bool ast_visitor::visit_function_decl( FunctionDecl * d ) {
 
         // instantiate
         if ( m_b_tmpl_func ) {
-            //instantiate_func( parent_class_name, name, param_decls );
-
             string proto;
             proto += ret_type + " ";
             if ( b_param ) {
@@ -341,7 +365,10 @@ bool ast_visitor::visit_function_decl( FunctionDecl * d ) {
                 proto += name_L_to_L_brace;
             boost::trim_right( proto );
 
-            func_inst += "template\n" + proto + ";\n\n";
+            m_tmpl_inst += "template\n" + proto + ";\n\n";
+        } else if ( !b_ctor ) {
+            // force usage
+            instantiate_func( parent_class_name, name, param_decls );
         }
     }
 
@@ -358,7 +385,7 @@ void ast_visitor::instantiate_func( string parent_name, string func_name, vector
         string pname = format( "var{}", m_param_counter++ );
 
         auto decl_s = format( "    {} *{} = nullptr;\n", type_s, pname ); // avoid "uninitialized local variable" warning
-        func_inst += decl_s;
+        m_func_inst += decl_s;
 
         if ( !param_s.empty() )
             param_s += ", ";
@@ -366,11 +393,11 @@ void ast_visitor::instantiate_func( string parent_name, string func_name, vector
     }
 
     if ( parent_name.empty() )
-        func_inst += format( "    {}( {} );\n\n", func_name, param_s );
+        m_func_inst += format( "    {}( {} );\n\n", func_name, param_s );
 
     else {
         string vname = format( "cls_var{}", m_param_counter++ );
-        func_inst += format( "    {} *{} = nullptr;\n", parent_name, vname );
-        func_inst += format( "    {}->{}( {} );\n\n", vname, func_name, param_s );
+        m_func_inst += format( "    {} *{} = nullptr;\n", parent_name, vname );
+        m_func_inst += format( "    {}->{}( {} );\n\n", vname, func_name, param_s );
     }
 }

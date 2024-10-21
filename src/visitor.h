@@ -6,6 +6,8 @@ struct ast_visitor : public RecursiveASTVisitor<ast_visitor> {
 
     bool VisitClassTemplateDecl( ClassTemplateDecl *d );
     bool VisitCXXRecordDecl( CXXRecordDecl *d );
+    bool VisitTypeAliasDecl( TypeAliasDecl *d );
+    bool VisitVarDecl( VarDecl *d );
     bool VisitFriendDecl( FriendDecl *d );
     bool VisitFunctionDecl( FunctionDecl *d ); // declared in class ASTNodeTraverser
     bool visit_function_decl( FunctionDecl *d );
@@ -29,5 +31,5 @@ struct ast_visitor : public RecursiveASTVisitor<ast_visitor> {
     string m_class_tmpl, m_class_tmpl_init;
     bool m_b_friend, m_b_tmpl_func;
     int m_param_counter;
-    string class_inst, func_inst;
+    string m_tmpl_inst, m_func_inst;
 };

@@ -25,10 +25,10 @@ struct A {
 
     A( T x_ );
 
-    ~A() ;
+    ~A();
 
     // https://stackoverflow.com/questions/79063965/instantiate-a-friend-function-in-a-template-class
-    friend void f_fri_A( A<T> & s ) ;
+    friend void f_fri_A( A<T> & s );
 
     // since there are no template specifiers in this declaration, we can instantiate A only once for a certain type; ignoring this case
     // friend void f2_fri_A( int x ) {
@@ -40,14 +40,14 @@ struct A {
     //     s.x = 1;
     // }
 
-    void g_A( T t ) ;
+    void g_A( T t );
 
     template<class S>
-    void h_A( T t, S s ) ;
+    void h_A( T t, S s );
 
-    std::vector<int> i_A() ;
+    std::vector<int> i_A();
 
-    _Bool j_A() ;
+    _Bool j_A();
 
     T y;
 
@@ -56,7 +56,7 @@ private:
 };
 
 template <class T>
-void f_indep( A<T> & s ) ;
+void f_indep( A<T> & s );
 
 // B
 template <class TYPE>
@@ -67,25 +67,25 @@ struct B {
     template <class T>
     friend void f_fri_B( B<T> &s );
 
-    friend TYPE add_fri_B( const B<TYPE> & b, TYPE y ) ;
+    friend TYPE add_fri_B( const B<TYPE> & b, TYPE y );
 
-    friend TYPE operator+( const B<TYPE> & b, TYPE y ) ;
+    friend TYPE operator+( const B<TYPE> & b, TYPE y );
 
 private:
     TYPE x;
 };
 
 template <class T>
-void f_fri_B( B<T> & s ) ; 
+void f_fri_B( B<T> & s ); 
 
 // C
 struct C {
-    void g_C( int t ) ;
+    void g_C( int t );
 
     template<class S>
-    void h_C( S s ) ;
+    void h_C( S s );
 
-    int get_x() const ;
+    int get_x() const;
 
     int x;
 };

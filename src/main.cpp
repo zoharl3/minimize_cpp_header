@@ -60,8 +60,8 @@ vector<string> parse( int argc, const char **argv ) {
     ast_visitor visitor( rewriters, ctx, fname );
     visitor.TraverseDecl( ctx.getTranslationUnitDecl() );
 
-    ret.push_back( visitor.class_inst );
-    ret.push_back( visitor.func_inst );
+    ret.push_back( visitor.m_tmpl_inst );
+    ret.push_back( visitor.m_func_inst );
 
     string code;
     for ( int i = 0; i < rewriters.size(); ++i ) {
@@ -86,7 +86,7 @@ int main( int argc, const char **argv ) {
     array<string, 5> arr;
     for ( int i = 0; i < arr.size(); ++i )
         arr[i] = vec[i];
-    auto [class_inst, func_inst, code, code2, fname] = arr;
+    auto [tmpl_inst, func_inst, code, code2, fname] = arr;
 
     println();
 
@@ -104,8 +104,14 @@ int main( int argc, const char **argv ) {
     fcode2 << code2;
 
     ofstream fIns( basename + "_min_ins.hpp", ios::binary );
-    fIns << class_inst;
-    fIns << func_inst + "\n\n";
+    fIns << "\n// explicit template instantiation\n";
+    fIns << tmpl_inst;
+
+    fIns << "// (dummy) function usage to encourage the compiler not to discard it\n";
+    fIns << "void INST_FUNC() {\n"; 
+    boost::trim_right( func_inst );
+    fIns << func_inst + "\n";
+    fIns << "}\n\n";
 
     //wait();
 

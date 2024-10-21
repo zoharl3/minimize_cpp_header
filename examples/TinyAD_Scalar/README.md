@@ -1,7 +1,5 @@
 
-# TinyAD
-
-This example is for the Scalar class from [TinyAD](https://github.com/patr-schm/TinyAD).
+This example if for the Scalar class from [TinyAD](https://github.com/patr-schm/TinyAD).
 
 The input files are in `input`.
 
@@ -15,4 +13,4 @@ to generate
 - `Scalar_min_ins.hpp`
 - `Scalar_min_lean.hpp`
 
-I manually wrote `basic_ins.cpp` and modified `basic.cc` to include the lean header.
+I manually wrote `basic_ins.cpp`, and modified `basic.cc` to include the lean header.

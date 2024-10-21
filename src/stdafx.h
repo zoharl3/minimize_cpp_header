@@ -17,6 +17,8 @@
 #include <filesystem>
 #include <map>
 
+#include <boost/algorithm/string.hpp>
+
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/AST/AST.h"
 #include "clang/AST/ASTConsumer.h"
