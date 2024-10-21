@@ -148,7 +148,7 @@ For the background story and further motivation see [eigen_wrapper_cpp](https://
 Check the release section for pre-built binaries.
 
 Building the source requires `boost` and `llvm`.
-If you are using `vcpkg` on Windows, `llvm` requires 170GB (and it's slow to build), and it contains debug libraries. It might be simpler instead to download pre-built binaries, which don't include them.
+If you are using `vcpkg` on Windows, `llvm` requires 170GB (and it's slow to build). It might be simpler instead to use pre-built binaries if you don't need the debug libraries.
 On Linux, I chose to build the sources.
 
 
