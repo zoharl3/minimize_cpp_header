@@ -1,19 +1,20 @@
 
 # Minimize a C++ header
-Given a C++ header, this tool creates a lean header file from it that removes definitions (function bodies) and includes only declarations.
-The purpose is to reduce compilation time of a critical file by moving template instantiation to a separate file.
+Given a C++ header, this tool creates a similar lean header file without definitions (function bodies) and that includes only declarations.
+The purpose is to reduce compilation time of a critical cpp file that includes it by moving template instantiation to a separate file.
 
 The tool is built using clang LLVM. Using libtooling, the input file goes through the first part of the compilation, and an AST is created.
 The command-line options are similar to clang:
 
 `min_header --help`
 
+For example, you can supply an additional include directory with an argument `-I<dir>`.
 The input file must pass compilation successfully.
-It should have an extension that implies a C++ file (.hh, .hpp).
+It should have an extension that clang associates with a C++ file (e.g., .hh, .hpp).
 
 I'll demonstrate the tool on the following example step-by-step.
 
-Two input files, `header.hpp`
+The app consists of two input files, `header.hpp`:
 
 ```cpp
 template <class T>
@@ -26,7 +27,7 @@ struct A {
 };
 ```
 
-and `main.cpp`
+and `main.cpp`:
 
 ```cpp
 #include "header.hpp"
@@ -44,11 +45,11 @@ int main() {
 
 I'd like to reduce the compilation time of `main.cpp` by moving the instantiation of the template in `header.hpp` to another file.
 
-I run
+I execute
 
 `min_header header.hpp` 
 
-to generate
+to generate three header files:
 
 1. `header_min.hpp`
 
@@ -63,7 +64,7 @@ struct A {
 };
 ```
 
-This header differs from the original header is the addition of the macro `MIN_HEADER_EXPORT` before declaration of instantiated functions.
+> This header differs from the original header by the addition of the macro `MIN_HEADER_EXPORT` before declaration of instantiated functions.
 
 2. `header_min_ins.hpp`
 
@@ -80,7 +81,7 @@ void INST_FUNC() {
 }
 ```
 
-This header explicitly instantiates template classes and headers.
+> This header explicitly instantiates template classes and functions.
 
 3. `header_min_lean.hpp`
 
@@ -95,9 +96,9 @@ struct A {
 };
 ```
 
-This is the _lean_ header that includes only declarations.
+> This is the _lean_ header that includes only declarations.
 
-I (manually) write `main_ins.cpp`
+Using two of these generated headers, I (manually) write `main_ins.cpp`:
 
 ```cpp
 if defined( _MSC_VER ) && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
@@ -122,7 +123,7 @@ if defined( _MSC_VER ) && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
 
 The macro `MIN_HEADER_EXPORT` is to encourage the compiler not to discard a nontemplate, inline function. gcc and clang also require the `INST_FUNC`. For details, see [Instantiate a friend function in a template class](https://stackoverflow.com/questions/79063965/instantiate-a-friend-function-in-a-template-class).
 
-Finally, I modify `main.cpp` to include the lean header
+Finally, I modify `main.cpp` to include the third lean header:
 
 ```cpp
 //#include "header.hpp"
@@ -147,7 +148,7 @@ For the background story and further motivation see [eigen_wrapper_cpp](https://
 Check the release section for pre-built binaries.
 
 Building the source requires `boost` and `llvm`.
-If you are using `vcpkg` on Windows, `llvm` requires 170GB (and it's slow to build), which includes debug libraries. It might be simpler instead to download pre-built binaries, which don't include them.
+If you are using `vcpkg` on Windows, `llvm` requires 170GB (and it's slow to build), and it contains debug libraries. It might be simpler instead to download pre-built binaries, which don't include them.
 On Linux, I chose to build the sources.
 
 
