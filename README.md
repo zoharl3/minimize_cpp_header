@@ -1,5 +1,7 @@
 
 # Minimize C++ header
+[Automatic instantiation; extract declaration]
+
 This tool assists with delegating template instantiation to another file, thus reducing compilation time. It extract an interface from a C++ header.
 
 Given a C++ header, this tool creates a similar lean header file without definitions (function bodies) and that includes only declarations.
