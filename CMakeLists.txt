@@ -66,7 +66,7 @@ if(Boost_FOUND)
 endif()
 
 # VS properties
-if(MSVC)
+if( MSVC )
     set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PRJ_NAME} )
     set_property( TARGET ${PRJ_NAME} PROPERTY VS_DEBUGGER_COMMAND_ARGUMENTS --help )
 endif()
