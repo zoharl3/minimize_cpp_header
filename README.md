@@ -125,7 +125,7 @@ if defined( _MSC_VER ) && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
 #undef INST_FUNC
 ```
 
-The macro `MIN_HEADER_EXPORT` is to encourage the compiler not to discard a nontemplate, inline function. gcc and clang also require the `INST_FUNC`. For details, see [Instantiate a friend function in a template class](https://stackoverflow.com/questions/79063965/instantiate-a-friend-function-in-a-template-class).
+The macro `MIN_HEADER_EXPORT` is to encourage the compiler not to discard a nontemplate, inline function. gcc and clang also require the `INST_FUNC`. For details, see [Instantiate a friend function in a template class](https://drive.google.com/file/d/1QLsl97Nbcp5-18BldxfQlAQ2m1xkzv94/view?pli=1).
 
 Finally, I modify `main.cpp` to include the third lean header:
 
