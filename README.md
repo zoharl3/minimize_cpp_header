@@ -68,7 +68,7 @@ struct A {
 };
 ```
 
-> This header differs from the original header by the addition of the macro `MIN_HEADER_EXPORT` before declaration of instantiated functions.
+This header differs from the original header by the addition of the macro `MIN_HEADER_EXPORT` before declaration of instantiated functions.
 
 2. `header_min_ins.hpp`
 
@@ -85,7 +85,7 @@ void INST_FUNC() {
 }
 ```
 
-> This header explicitly instantiates template classes and functions.
+This header explicitly instantiates template classes and functions.
 
 3. `header_min_lean.hpp`
 
