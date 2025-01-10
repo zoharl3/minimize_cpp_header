@@ -100,7 +100,7 @@ struct A {
 };
 ```
 
-> This is the _lean_ header that includes only declarations.
+This is the _lean_ header that includes only declarations.
 
 Using two of these generated headers, I (manually) write `main_ins.cpp`:
 
